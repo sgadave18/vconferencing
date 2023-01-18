@@ -1,18 +1,25 @@
 const APP_ID = "38f99d48b8054706bb4ba6d7c03845ae"
 
+let authUsers = ['Swapnil', 'Swappy']
 let token = null;
-let localStream;
-let remoteStream;
-let peerConnection;
 let client;
 let channel;
 let queryString = window.location.search
 let urlParams = new URLSearchParams(queryString)
-// let roomId = urlParams.get('room')
-let roomId = "SWAPNIL"
+let roomId = urlParams.get('room')
 let uid = urlParams.get('uid')
+let localStream;
+let remoteStream;
+let peerConnection;
 
+if (!roomId) {
+    window.location = 'lobby.html'
+    window.location = 'lobby.html'
+}
 
+if (authUsers.includes(uid)) {
+    console.log(uid);
+}
 
 
 const servers = {
