@@ -70,7 +70,7 @@ let init = async () => {
     client.on('MessageFromPeer', async (message, MemberId) => {
 
         message = JSON.parse(message.text)
-
+        console.log("MESSEGE ----->",message);
         if (message.type === 'offer') {
             await createPeerConnection(MemberId)
             await peerConnection.setRemoteDescription(message.offer)
