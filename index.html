@@ -3,37 +3,44 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <link rel="icon" href="favicon.ico" />
     <title>PeerChat</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <link rel="icon" href="favicon.ico" />
+    <link rel='stylesheet' type='text/css' media='screen' href='lobby.css'>
 </head>
 <body>
-
-    <div id="videos">
-        <video class="video-player" id="user1" autoplay playsinline muted></video>
-        <video class="video-player" id="user2" autoplay playsinline></video>
-    </div>
-
-    <div id="controls">
-
-        <button class="control-container" id="camera-btn" onClick="toggleCamera()">
-            <img src="icons/camera.png" />
-        </button>
-
-        <button class="control-container" id="mic-btn" onClick="toggleMic()">
-            <img src="icons/mic.png" />
-        </button>
-
-        <a href="lobby.html">
-            <div class="control-container" id="leave-btn">
-                <img src="icons/phone.png" />
-            </div>
-        </a>
-
-    </div>
     
+    <main id="lobby-container">
+        <div id="form-container">
+            <div id="form__container__header">
+                <p>👋 Create OR Join a Room</p>
+            </div>
+
+            <div id="form__content__wrapper">
+                <form id="join-form">
+                    <input type="text" name="User_Id" placeholder="User ID" required/>
+                    <input type="text" name="invite_link" placeholder="Invite Link" required/>
+                    <input type="submit" value="Join Room" />
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+
 </body>
-<script src='agora-rtm-sdk-1.4.4.js'></script>
-<script src='main.js'></script>
+
+<script>
+    let form = document.getElementById('join-form')
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let inviteCode = e.target.invite_link.value
+        let UserId = e.target.User_Id.value
+        
+            window.location = `room.html?room=${inviteCode}&uid=${UserId}` 
+        
+    })
+</script>
+
 </html>

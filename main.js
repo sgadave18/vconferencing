@@ -13,8 +13,8 @@ let remoteStream;
 let peerConnection;
 
 if (!roomId) {
-    window.location = 'lobby.html'
-    window.location = 'lobby.html'
+    window.location = 'index.html'
+    window.location = 'index.html'
 }
 
 if (authUsers.includes(uid)) {
