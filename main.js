@@ -11,6 +11,7 @@ let uid = urlParams.get('uid')
 let localStream;
 let remoteStream;
 let peerConnection;
+let audioTrack;
 
 if (!roomId) {
     window.location = 'index.html'
@@ -97,8 +98,10 @@ let init = async () => {
 
     })
 
-    localStream = await navigator.mediaDevices.getUserMedia(constraints)
-    document.getElementById('user1').srcObject = localStream
+    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+    audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
+    document.getElementById('user1').srcObject = localStream;
+
 }
 
 
@@ -156,10 +159,13 @@ let toggleCamera = async () => {
 
 let toggleMic = async () => {
 
-    let audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
-    console.log("AUDIO TRACK", audioTrack)
+    
+    // audioTrack=localStream.getAudioTracks();
+    // console.log("AUDIO TRACK--------->",audioTrack);
+    console.log("AUDIO TRACK MIC", audioTrack)
     if (audioTrack.enabled) {
         audioTrack.enabled = false
+        // console.log("AUDIO TRACK", audioTrack)
         document.getElementById('mic-btn').style.backgroundColor = 'rgb(255, 80, 80)'
     } else {
         audioTrack.enabled = true
