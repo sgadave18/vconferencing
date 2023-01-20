@@ -9,15 +9,15 @@
 </head>
 <body>
 
-    <button id="join-btn">Join Stream</button>
+    <button id="join-btn" onclick="joinStream()">Join Stream</button>
 
     <div id="stream-wrapper">
         <div id="video-streams"></div>
 
         <div id="stream-controls">
-            <button id="leave-btn">Leave Stream</button>
-            <button id="mic-btn">Mic On</button>
-            <button id="camera-btn">Camera on</button>
+            <button id="leave-btn" onclick="leaveAndRemoveLocalStream()">Leave Stream</button>
+            <button id="mic-btn" onclick="toggleMic()">Mic On</button>
+            <button id="camera-btn" onclick="toggleCamera()">Camera on</button>
         </div>
     </div>
     
