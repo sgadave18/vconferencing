@@ -1,78 +1,57 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body{
+    background:#0F2027;
+    background:-webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027) ;
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
 }
 
-#videos{
-    display: grid;
-    grid-template-columns: 1fr;
-    height: 100vh;
-    overflow:hidden;
+#join-btn{
+    position: fixed;
+    top:50%;
+    left:50%;
+    margin-top:-50px;
+    margin-left:-100px;
+    font-size:18px;
+    padding:20px 40px;
+}
+
+#video-streams{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    height: 90vh;
+    width: 1400px;
+    margin:0 auto;
+}
+
+.video-container{
+    max-height: 100%;
+    border: 2px solid black;
+    background-color: #203A49;
 }
 
 .video-player{
-    background-color: black;
-    width: 100%;
     height: 100%;
-    object-fit: cover;
+    width: 100%;
 }
 
-#user-2{
+button{
+    border:none;
+    background-color: cadetblue;
+    color:#fff;
+    padding:10px 20px;
+    font-size:16px;
+    margin:2px;
+    cursor: pointer;
+}
+
+#stream-controls{
     display: none;
+    justify-content: center;
+    margin-top:0.5em;
 }
 
-.smallFrame{
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    height: 170px;
-    width: 300px;
-    border-radius: 5px;
-    border:2px solid #b366f9;
-    -webkit-box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
-    box-shadow: 3px 3px 15px -1px rgba(0,0,0,0.77);
-    z-index: 999;
-}
-
-
-#controls{
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform:translateX(-50%);
-    display: flex;
-    gap: 1em;
-}
-
-
-.control-container{
-  background-color: rgb(179, 102, 249, .9);
-  padding: 20px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.control-container img{
-    height: 30px;
-    width: 30px;
-}
-
-#leave-btn{
-    background-color: rgb(255,80,80, 1);
-}
-
-@media screen and (max-width:600px) {
-        .smallFrame{
-            height: 80px;
-            width: 120px;
-        }
-
-        .control-container img{
-            height: 20px;
-            width: 20px;
-        }
+@media screen and (max-width:1400px){
+    #video-streams{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        width: 95%;
+    }
 }
