@@ -7,7 +7,150 @@ const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
 let localTracks = []
 let remoteUsers = {}
 
+<<<<<<< HEAD
 let joinAndDisplayLocalStream = async () => {
+=======
+if (authUsers.includes(uid)) {
+    console.log(uid);
+}
+
+
+const servers = {
+    iceServers: [
+        {
+            urls: ['stun:stun.services.mozilla.com','stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302','stun:stun3.l.google.com:19302','stun:stun4.l.google.com:19302']
+        }
+    ]
+}
+
+
+let constraints = {
+    video: {
+        width: 640,
+        height:480
+    },
+    audio: true
+}
+
+
+let init = async () => {
+    client = await AgoraRTM.createInstance(APP_ID)
+    await client.login({ uid, token })
+    console.log("CLIENT------>", client);
+
+    channel = client.createChannel(roomId)
+    await channel.join()
+
+    channel.on('MemberJoined', async (MemberId) => {
+        console.log('A new user joined the channel:', MemberId)
+        await createPeerConnection(MemberId)
+
+        let offer = await peerConnection.createOffer()
+        await peerConnection.setLocalDescription(offer)
+
+        client.sendMessageToPeer({ text: JSON.stringify({ 'type': 'offer', 'offer': offer }) }, MemberId)
+    })
+
+
+    channel.on('MemberLeft', (MemberId) => {
+        console.log("Member Left : ", MemberId)
+        document.getElementById('user2').style.display = 'none'
+        document.getElementById('user1').classList.remove('smallFrame')
+    })
+
+
+
+    client.on('MessageFromPeer', async (message, MemberId) => {
+
+        message = JSON.parse(message.text)
+        console.log("MESSEGE ----->",message);
+        if (message.type === 'offer') {
+            await createPeerConnection(MemberId)
+            await peerConnection.setRemoteDescription(message.offer)
+            let answer = await peerConnection.createAnswer()
+            await peerConnection.setLocalDescription(answer)
+            client.sendMessageToPeer({ text: JSON.stringify({ 'type': 'answer', 'answer': answer }) }, MemberId)
+        }
+
+        if (message.type === 'answer') {
+            if (!peerConnection.currentRemoteDescription) {
+                peerConnection.setRemoteDescription(message.answer)
+            }
+        }
+
+        if (message.type === 'candidate') {
+            if (peerConnection) {
+                console.log("IN PEER MESSAGE------->",peerConnection);
+                // if (peerConnection.currentRemoteDescription) {
+                    peerConnection.addIceCandidate(message.candidate)
+                // }
+            }
+        }
+
+
+    })
+
+    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+    audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
+    document.getElementById('user1').srcObject = localStream;
+
+}
+
+
+let createPeerConnection = async (MemberId) => {
+
+    peerConnection = new RTCPeerConnection(servers)
+    console.log("PEER CONNECTION------>", peerConnection);
+    remoteStream = new MediaStream()
+    document.getElementById('user2').srcObject = remoteStream
+    document.getElementById('user2').style.display = 'block'
+
+    document.getElementById('user1').classList.add('smallFrame')
+
+
+    if (!localStream) {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        document.getElementById('user1').srcObject = localStream
+    }
+
+    localStream.getTracks().forEach((track) => {
+        peerConnection.addTrack(track, localStream)
+    })
+
+    peerConnection.ontrack = (event) => {
+        event.streams[0].getTracks().forEach((track) => {
+            remoteStream.addTrack(track)
+        })
+    }
+
+    peerConnection.onicecandidate = async (event) => {
+        if (event.candidate && peerConnection.currentRemoteDescription!=null) {
+            client.sendMessageToPeer({ text: JSON.stringify({ 'type': 'candidate', 'candidate': event.candidate }) }, MemberId)
+        }
+    }
+}
+
+
+
+let leaveChannel = async () => {
+    await channel.leave()
+    await client.logout()
+}
+
+let toggleCamera = async () => {
+    let videoTrack = localStream.getTracks().find(track => track.kind === 'video')
+    console.log("Video TRACK", videoTrack)
+    if (videoTrack.enabled) {
+        videoTrack.enabled = false
+        document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80)'
+    } else {
+        videoTrack.enabled = true
+        document.getElementById('camera-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
+    }
+}
+
+let toggleMic = async () => {
+>>>>>>> b850d7cb1867958056b3b9cc878b9be84b61f767
 
     client.on('user-published', handleUserJoined)
     
@@ -61,6 +204,7 @@ let handleUserLeft = async (user) => {
     document.getElementById(`user-container-${user.uid}`).remove()
 }
 
+<<<<<<< HEAD
 let leaveAndRemoveLocalStream = async () => {
     for(let i = 0; localTracks.length > i; i++){
         localTracks[i].stop()
@@ -101,3 +245,6 @@ document.getElementById('join-btn').addEventListener('click', joinStream)
 document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
 document.getElementById('mic-btn').addEventListener('click', toggleMic)
 document.getElementById('camera-btn').addEventListener('click', toggleCamera)
+=======
+init()
+>>>>>>> b850d7cb1867958056b3b9cc878b9be84b61f767
