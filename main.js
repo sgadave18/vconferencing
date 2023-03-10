@@ -1,5 +1,5 @@
 const APP_ID = "38f99d48b8054706bb4ba6d7c03845ae";
-const TOKEN = ""
+const TOKEN = "007eJxTYHhufbokriT7wubPdy5Off8nPXfF638BSierjtbtcrZ6FrVCgcHYIs3SMsXEIsnCwNTE3MAsKckkKdEsxTzZwNjCxDQxdXkAd0pDICPDwqICFkYGCATxWRhyEzPzGBgAkAsi2A=="
 const CHANNEL = "main";
 
 const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -71,23 +71,33 @@ let leaveAndRemoveLocalStream = async () => {
 let toggleMic = async (e) => {
     if (localTracks[0].muted) {
         await localTracks[0].setMuted(false)
-        e.target.innerText = 'Mic on'
-        e.target.style.backgroundColor = 'cadetblue'
+        document.getElementById('mic-btn').innerText = 'Mic on'
+        document.getElementById('mic-btn').style.backgroundColor='cadetblue'
+        // e.target.innerText = 'Mic on'
+        // e.target.style.backgroundColor = 'cadetblue'
     } else {
         await localTracks[0].setMuted(true)
-        e.target.innerText = 'Mic off'
-        e.target.style.backgroundColor = '#EE4B2B'
+        document.getElementById('mic-btn').innerText = 'Mic off'
+        document.getElementById('mic-btn').style.backgroundColor= '#EE4B2B'
+        // e.target.innerText = 'Mic off'
+        // e.target.style.backgroundColor = '#EE4B2B'
     }
 }
 
 let toggleCamera = async (e) =>{
     if(localTracks[1].muted){
         await localTracks[1].setMuted(false)
-        e.target.innerText = 'Camera on'
-        e.target.style.backgroundColor = 'cadetblue'
+        console.log("camera is On")
+        document.getElementById('camera-btn').innerText = 'Camera on'
+        // e.target.innerText = 'Camera on'
+        document.getElementById('camera-btn').style.backgroundColor='cadetblue'
+        // e.target.style.backgroundColor = 'cadetblue'
     }else{
         await localTracks[1].setMuted(true)
-        e.target.innerText = 'Camera off'
-        e.target.style.backgroundColor = '#EE4B2B'
+        console.log("camera is Off")
+        document.getElementById('camera-btn').innerText =  'Camera off'
+        document.getElementById('camera-btn').style.backgroundColor= '#EE4B2B'
+        // e.target.innerText = 'Camera off'
+        // e.target.style.backgroundColor = '#EE4B2B'
     }
 }
